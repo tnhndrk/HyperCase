@@ -113,8 +113,7 @@ const HomePage = () => {
             {productData.map((item, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"
-                  }`}
+                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
               >
                 <Image
                   alt=""

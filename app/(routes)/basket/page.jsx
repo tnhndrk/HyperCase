@@ -49,7 +49,7 @@ export default function Basket() {
                                     <hr />
                                 </div>
                             }
-                            cardFooter={<h2 className="text-right w-full">{t("general.totalAmount")}: {general.currencyToSymbol(currency)}{totalPrice}</h2>}
+                            cardFooter={<h2 className="text-right w-full">{t("general.totalAmount")}: {general.currencyToSymbol(currency)}{totalPrice.toFixed(2)}</h2>}
                         />
                     </div>
                 </div>
