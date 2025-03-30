@@ -8,11 +8,13 @@ import general from '@/utils/general';
 import { useCurrency } from '@/context/currencyContext';
 import { useCart } from '@/context/cartContext';
 import Loading from '@/components/loading';
+import { useTranslation } from 'react-i18next';
 
 const ProductDetails = () => {
     const { product } = useProduct();
     const { currency } = useCurrency()
     const { addToCart } = useCart();
+    const { t } = useTranslation()
     let hasDiscount = (product?.salePrice != product?.buyPrice && product?.buyPrice != 0);
     if (general.isNullOrEmpty(product)) {
         return <Loading />
@@ -21,7 +23,7 @@ const ProductDetails = () => {
         <div className='container mx-auto pt-44'>
             <div className='grid grid-cols-12'>
                 <div className='col-span-12 lg:col-span-4 w-full flex flex-col pt-8'>
-                    <h1 className='font-semibold mb-2 text-lg'>{product?.productName}</h1>
+                    <h1 className='font-semibold mb-2 text-lg'>{t(product?.productName)}</h1>
                     <div className='overflow-hidden relative w-fit h-auto p-1 rounded-xl'>
                         <div className='absolute w-full h-full -z-50 rounded-xl top-0 left-0 bg-conic/decreasing from-violet-700 via-lime-300 to-violet-700 opacity-70 blur-3xl animate-spin'></div>
                         <Image
@@ -37,27 +39,35 @@ const ProductDetails = () => {
                 <div className='col-span-12 lg:col-span-8'>
                     <div className='border-b gap-7 py-6 gap-y-4'>
                         <div>
-                            <p className='font-semibold text-xl dark:text-zinc-50 text-zinc-950'>Özellikler & Açıklamalar</p>
+                            <p className='font-semibold text-xl dark:text-zinc-50 text-zinc-950'>{t("product.desc.title")}</p>
                             <ol className='mt-3 text-zinc-700 dark:text-zinc-300 list-disc list-inside'>
-                                <li>{product?.productData?.productInfo}</li>
-                                <li>Stok: {product?.totalStock}</li>
+                                <li>{t(product?.productData?.productInfo)}</li>
+                                <li>{t("general.stock")}: {t(product?.totalStock)}</li>
                             </ol>
-                            <p className='font-semibold text-xl dark:text-zinc-50 text-zinc-950 mt-3'>Ürün Kuralları</p>
-                            <ol className='mt-3 text-zinc-700 dark:text-zinc-300 list-disc list-inside'>
-                                {
-                                    product?.productRequire?.map((purchaseRequireItem, index) => {
-                                        return (<li key={"productRequire" + index}>{purchaseRequireItem?.title}</li>)
-                                    })
-                                }
-                            </ol>
-                            <p className='font-semibold text-xl dark:text-zinc-50 text-zinc-950 mt-3'>Satın Alma Kuralları</p>
-                            <ol className='mt-3 text-zinc-700 dark:text-zinc-300 list-disc list-inside'>
-                                {
-                                    product?.purchaseRequire?.map((purchaseRequireItem, index) => {
-                                        return (<li key={"purchaseRequire" + index}>{purchaseRequireItem?.title}</li>)
-                                    })
-                                }
-                            </ol>
+                            {!general.isNullOrEmpty(product?.productRequire) && product?.productRequire?.length > 0 &&
+                                <>
+                                    <p className='font-semibold text-xl dark:text-zinc-50 text-zinc-950 mt-3'>{t("product.productRules")}</p>
+                                    <ol className='mt-3 text-zinc-700 dark:text-zinc-300 list-disc list-inside'>
+                                        {
+                                            product?.productRequire?.map((purchaseRequireItem, index) => {
+                                                return (<li key={"productRequire" + index}>{t(purchaseRequireItem?.title)}</li>)
+                                            })
+                                        }
+                                    </ol>
+                                </>
+                            }
+                            {!general.isNullOrEmpty(product?.purchaseRequire) && product?.purchaseRequire?.length > 0 &&
+                                <>
+                                    <p className='font-semibold text-xl dark:text-zinc-50 text-zinc-950 mt-3'>{t("product.purchasingRules")}</p>
+                                    <ol className='mt-3 text-zinc-700 dark:text-zinc-300 list-disc list-inside'>
+                                        {
+                                            product?.purchaseRequire?.map((purchaseRequireItem, index) => {
+                                                return (<li key={"purchaseRequire" + index}>{t(purchaseRequireItem?.title)}</li>)
+                                            })
+                                        }
+                                    </ol>
+                                </>
+                            }
                         </div>
                     </div>
 
@@ -65,7 +75,7 @@ const ProductDetails = () => {
                         <div className='bg-gray-200 dark:bg-gray-800 rounded-xl p-4'>
                             <div className='flow-root text-sm text-gray-700 dark:text-gray-100'>
                                 <div className='flex items-center justify-between py-1 mt-2'>
-                                    <p>Tutar</p>
+                                    <p>{t("general.amount")}</p>
                                     <p className='font-semibold'>
                                         {general.currencyToSymbol(currency)}
                                         {general.priceCalculator(currency, product?.salePrice).toFixed(2)}
@@ -74,7 +84,7 @@ const ProductDetails = () => {
                                 {
                                     (hasDiscount) &&
                                     <div className='flex items-center justify-between py-1 mt-2'>
-                                        <p>İndirim</p>
+                                        <p>{t("general.discount")}</p>
                                         <p className='font-semibold'>
                                             %{(((product?.salePrice - product?.buyPrice) / product?.salePrice) * 100)?.toFixed(2)}
                                         </p>
@@ -82,7 +92,7 @@ const ProductDetails = () => {
                                 }
                                 <div className='my-2 h-px bg-gray-400'></div>
                                 <div className='flex items-center justify-between py-1 mt-2'>
-                                    <p>Toplam Tutar</p>
+                                    <p>{t("general.totalAmount")}</p>
                                     <p className='font-semibold'>
                                         {
                                             (hasDiscount) &&
@@ -101,7 +111,7 @@ const ProductDetails = () => {
 
                     <div className='mt-8 flex justify-end pb-12 space-x-4'>
                         <Button variant="default" onClick={() => addToCart(product)} className="cursor-pointer">
-                            Sepete Ekle<ShoppingCart className='h-4 w-4 inline' />
+                            {t("general.addBasket")}<ShoppingCart className='h-4 w-4 inline' />
                         </Button>
                     </div>
                 </div>

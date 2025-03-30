@@ -1,4 +1,3 @@
-// services/apiService.ts
 import axios from 'axios';
 import { API_BASE_URL, TOKEN } from '@/config/appConfig';
 

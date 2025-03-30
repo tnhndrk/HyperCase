@@ -11,6 +11,7 @@ import GamingCard from '@/components/gamingCard';
 import Image from 'next/image';
 import { useProduct } from '@/context/productContext';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
   const [formProps, formPropsRef, setFormProps] = useRefState({});
@@ -23,6 +24,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const { ProductList } = ProductService();
 
+  const { t } = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [inputValue, setInputValue] = useState(formProps?.search || '');
@@ -101,18 +103,17 @@ const HomePage = () => {
 
   return (
     <div className='container mx-auto pt-28 pb-16 relative space-y-4'>
-      <div className='w-full h-auto flex lg:flex-row flex-col items-center justify-between px-3 border border-gray-900 rounded-2xl py-8'>
+      <div className='w-full h-auto flex lg:flex-row flex-col items-center justify-between px-3 border border-gray-900 rounded-2xl py-8 gap-4'>
         <div className='w-full pl-8 space-y-4'>
-          <h1 className='font-bold text-3xl'>Gerçek Oyuncular İçin Gerçek Değerler!</h1>
-          <span className='text-black dark:text-white'>Oyun içi öğeler, nadir bulunan ekipmanlar ve en iyi fırsatlar burada seni bekliyor. Sanal dünyada zirve seni bekliyor. Envanterini genişlet, en iyi silahları kuşan, oyun içi paraları uygun fiyata yakala ve rakiplerine fark at! Macerana yön ver, dijital dünyada zirveye çıkmaya hazır mısın?</span>
+          <h1 className='font-bold text-3xl'>{t("home.title")}</h1>
+          <span className='text-black dark:text-white'>{t("home.desc")}</span>
         </div>
         <div className='w-full flex items-center justify-center'>
-          <div className="relative w-96 h-96 border-2 border-gray-900 rounded-xl overflow-hidden">
+          <div className="relative lg:w-96 lg:h-96 w-72 h-72 border-2 border-gray-900 rounded-xl overflow-hidden">
             {productData.map((item, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"
-                  }`}
+                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
               >
                 <Image
                   alt=""
@@ -129,10 +130,10 @@ const HomePage = () => {
       </div>
       <div className='w-full flex flex-row items-center justify-between px-3'>
         <div className='w-full flex flex-row items-center gap-4'>
-          <SearchInput onChange={handleInputChange} value={inputValue} />
-          <Button onClick={() => goProductDetails(filteredProducts[selectedIndex] || filteredProducts[0])} variant="default" className="cursor-pointer">Ara</Button>
+          <SearchInput onChange={handleInputChange} value={inputValue} placeholder={t("general.search")} />
+          <Button onClick={() => goProductDetails(filteredProducts[selectedIndex] || filteredProducts[0])} variant="default" className="cursor-pointer">{t("general.search")}</Button>
         </div>
-        <Button variant="ghost" className="cursor-pointer" onClick={() => router.push(`/product`)}>Tümünü gör<ChevronRight className='inline' /></Button>
+        <Button variant="ghost" className="cursor-pointer" onClick={() => router.push(`/product`)}>{t("general.allSee")}<ChevronRight className='inline' /></Button>
       </div>
 
       {formProps?.search && (
@@ -146,11 +147,11 @@ const HomePage = () => {
                 onMouseEnter={() => setSelectedIndex(index)}
                 onClick={() => goProductDetails(product)}
               >
-                {product.productName}
+                {t(product.productName)}
               </div>
             ))
           ) : (
-            <p className="text-gray-500">Sonuç bulunamadı.</p>
+            <p className="text-gray-500">{t("general.dataNotFound")}</p>
           )}
         </div>
       )}
@@ -171,7 +172,7 @@ const HomePage = () => {
             }
             {
               (general.isNullOrEmpty(productData) || productData?.length <= 0) &&
-              <h2>Veri Bulunamadı</h2>
+              <h2>{t("general.dataNotFound")}</h2>
             }
           </div>
       }

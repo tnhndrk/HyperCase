@@ -24,7 +24,7 @@ const ProductCard = ({ item }) => {
             <div className='absolute w-full h-full -z-50 rounded-xl top-0 left-0 bg-conic/decreasing from-violet-700 via-lime-300 to-violet-700 opacity-0 group-hover:opacity-70 blur-3xl group-hover:animate-spin'></div>
 
             <CustomCard
-                cardTitle={item?.productName}
+                cardTitle={t(item?.productName)}
                 cardContent={
                     <Image
                         alt=''

@@ -20,10 +20,10 @@ const Footer = () => {
             <div className='container mx-auto py-5'>
                 <div className='text-center space-y-4'>
                     <h2 className='text-2xl font-semibold'>
-                        En İyi Tekliflere Şimdi Ulaş!
+                        {t("footer.title")}
                     </h2>
                     <p className='font-light'>
-                        Oyun içi eşyaları ve paraları en iyi fiyatlarla keşfetmek ve satın almak için bizi takip etmeyi unutma!
+                        {t("footer.desc")}
                     </p>
                 </div>
             </div>

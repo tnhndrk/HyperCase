@@ -7,7 +7,6 @@ import useRefState from '@/hooks/useRefState';
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -75,7 +74,7 @@ const Products = () => {
                             {
                                 (general.isNullOrEmpty(productData) || productData?.length <= 0) &&
                                 <div className='col-span-12 flex items-center justify-center'>
-                                    <span className='text-black dark:text-white text-2xl font-bold'>Veri Bulunamadı</span>
+                                    <span className='text-black dark:text-white text-2xl font-bold'>{t("general.dataNotFound")}</span>
                                 </div>
                             }
                         </div>
