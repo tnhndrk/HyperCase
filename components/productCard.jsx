@@ -41,6 +41,7 @@ const ProductCard = ({ item }) => {
                             <Button className='w-full cursor-pointer' onClick={() => goProductDetails(item)}>{t('general.detail')}</Button>
                         </div>
                         <span className='text-base font-bold'>
+                            asdasfasfa
                             {general.currencyToSymbol(currency)}
                             {general.priceCalculator(currency, item?.salePrice).toFixed(2)}
                         </span>

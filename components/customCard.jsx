@@ -24,7 +24,7 @@ const CustomCard = (props) => {
                 {cardContent}
             </CardContent>
             <CardFooter>
-                {cardFooter}
+                {cardFooter}adadada
             </CardFooter>
         </Card>
 
